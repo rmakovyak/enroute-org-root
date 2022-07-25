@@ -23,7 +23,7 @@ jobs:
       - name: Build
         run: |
           mkdir dist
-          echo '/ /intelligence' >> dist/_redirects 
+          echo '/* /intelligence' >> dist/_redirects 
           echo '/intelligence/* ${{ env.INTELLIGENCE }}/:splat 200' >> dist/_redirects 
           echo '/user-management/* ${{ env.USER_MANAGEMENT }}/:splat 200' >> dist/_redirects
           echo '<!DOCTYPE html><html><body></body></html>' >> dist/index.html
