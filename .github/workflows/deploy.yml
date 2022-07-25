@@ -1,0 +1,34 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    strategy:
+      matrix:
+        organization: ['apple', 'banana', 'peach']
+        env: ['staging', 'production']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set env values
+        run: cat envs/${{ matix.env }}/.env.${{ matrix.organization }} > .env.production
+      - name: Load .env file
+        uses: xom9ikk/dotenv@v1.0.2
+        with:
+          mode: production
+      - name: Build
+        run: |
+          mkdir dist \
+          echo '/intelligence/* ${{ env.INTELLIGENCE }}/:splat 200' >> dist/_redirects \
+          echo '/user-management/* ${{ env.USER_MANAGEMENT }}/:splat 200' >> dist/_redirects
+      - name: Publish
+        uses: netlify/actions/cli@master
+        with:
+          args: deploy --prod --dir=dist --message "${{ github.sha }}"
+        env:
+          NETLIFY_SITE_ID: ${{ env.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
