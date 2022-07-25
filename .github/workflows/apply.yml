@@ -23,9 +23,9 @@ jobs:
       - name: Build
         run: |
           mkdir dist
-          echo '/* ${{ env.INTELLIGENCE }}/:splat 200' >> dist/_redirects 
           echo '/intelligence/* ${{ env.INTELLIGENCE }}/:splat 200' >> dist/_redirects 
           echo '/user-management/* ${{ env.USER_MANAGEMENT }}/:splat 200' >> dist/_redirects
+          echo '/* /intelligence' >> dist/_redirects
       - name: Publish
         uses: netlify/actions/cli@master
         with:
